@@ -9,44 +9,40 @@ export class AuthService {
 
  checkTokenOnInit(): void {
   const token = localStorage.getItem('token');
-  // Si no hay token, redirigir al login
+  // Verificar si hay un token si hay un token, redirigir al dashboard
   if (!token) {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']); // Redirigir al login si no hay token
     return;
-  }
-  // Ejemplo: Validar token con el backend
-  this.http.get<{ valid: boolean }>('https://x8ki-letl-twmt.n7.xano.io/api:1yoDTzbI/auth/login', {
+  } else {
+ //validar el token con el backend, al endpoint le tengo que pasar el token y si es valido me devuelve el usuario
+    this.http.get<{ valid: boolean }>('https://x8ki-letl-twmt.n7.xano.io/api:1yoDTzbI/auth/me', {
     headers: { Authorization: `Bearer ${token}` }
   }).subscribe({
     next: (res) => {
-      if (!res.valid) {
-        this.logout(); // Token inválido, cierra sesión
-      }
+      console.log('Token válido', res);
+      this.router.navigate(['/dashboard']); // Redirige al dashboard si el token es válido
     },
     error: () => this.logout() // Error = token inválido
   });
+  }
 }
-
+  // Método para cerrar sesión
    logout() {
     localStorage.removeItem('token'); // Elimina el token
-    // Redirigir al login (usaremos Router luego)
-    window.location.href = '/login'; // Solución temporal
+    localStorage.removeItem('email'); // Elimina el email
+    this.router.navigate(['/login']); // Redirige al login
   }
 
-  login(email: string, password: string, authToken: string): Observable<{ authToken: string }> {
+  login(email: string, password: string): Observable<{ authToken: string }> {
     // Aquí puedes agregar la lógica para obtener el authToken
     return this.http.post<{ authToken: string }>('https://x8ki-letl-twmt.n7.xano.io/api:1yoDTzbI/auth/login', { 
       email, 
       password,
-      authToken 
     }).pipe(
       tap(response => {
         localStorage.setItem('token', response.authToken); // Guarda el token
+        localStorage.setItem('email', email); // Guarda el email
       })
     );
-  }
-
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token'); // Verifica si hay token
   }
 }
