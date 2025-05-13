@@ -9,7 +9,7 @@ export const routes: Routes = [
     { 
     path: 'login', 
     component: LoginComponent, // Componente de inicio de sesión
-    title: 'Iniciar sesión' 
+    title: 'Soporte UAD' 
   },
   { 
     path: 'dashboard', 

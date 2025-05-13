@@ -8,12 +8,16 @@ export class AuthService {
   constructor(private  router: Router, private http: HttpClient) {}
 
  checkTokenOnInit(): void {
-  const token = localStorage.getItem('token');
-  // Verificar si hay un token si hay un token, redirigir al dashboard
-  if (!token) {
-    this.router.navigate(['/login']); // Redirigir al login si no hay token
+  // Verificar si localStorage está disponible
+  if (typeof Storage === 'undefined') {
+    this.router.navigate(['/login']); // Redirige al login si localStorage no está disponible
     return;
-  } else {
+  }
+  const token : string | null = localStorage.getItem('token');
+  if (!token) {
+    this.router.navigate(['/login']); // Redirige al login si no hay token
+    return;
+  }
  //validar el token con el backend, al endpoint le tengo que pasar el token y si es valido me devuelve el usuario
     this.http.get<{ valid: boolean }>('https://x8ki-letl-twmt.n7.xano.io/api:1yoDTzbI/auth/me', {
     headers: { Authorization: `Bearer ${token}` }
@@ -23,9 +27,9 @@ export class AuthService {
       this.router.navigate(['/dashboard']); // Redirige al dashboard si el token es válido
     },
     error: () => this.logout() // Error = token inválido
-  });
-  }
+  }); 
 }
+
   // Método para cerrar sesión
    logout() {
     localStorage.removeItem('token'); // Elimina el token
