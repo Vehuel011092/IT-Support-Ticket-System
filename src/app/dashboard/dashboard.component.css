@@ -1,12 +1,32 @@
-h1 {
-  color: #333;
-  margin-bottom: 20px;
-}
-button {
-  padding: 8px 16px;
-  background: #ff4d4d;
+/* dashboard.component.css */
+.top-navbar {
+  height: 60px;
+  background-color: #343a40; /* Color oscuro de Bootstrap */
   color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f8f9fa; /* Color claro de Bootstrap */
+  border-right: 1px solid #dee2e6;
+}
+
+.main-content {
+  background-color: white;
+  overflow-y: auto; /* Scroll si el contenido es largo */
+}
+
+/* Responsividad: ocultar sidebar en móviles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1000;
+    height: 100vh;
+    transition: width 0.3s;
+  }
+  .sidebar.show {
+    width: 250px;
+  }
 }
