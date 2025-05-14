@@ -4,7 +4,15 @@ import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const router: Router = inject(Router);
+  //evitemos que renderize el login para que no se vea el login si ya hay un token
+  const router = inject(Router);
+  const url = state.url;
+  // Si el usuario intenta acceder a la página de inicio de sesión y ya tiene un token, redirige al dashboard
+  if (url === '/login' && localStorage.getItem('token')) {
+    router.navigate(['/dashboard']);
+    return false;
+  }
+
   // verificar que haya un token
   const token = localStorage.getItem('token');
 

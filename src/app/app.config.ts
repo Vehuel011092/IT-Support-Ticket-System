@@ -7,6 +7,10 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { BootstrapIcons } from 'ng-bootstrap-icons';
+import { BoxArrowRight } from 'ng-bootstrap-icons/icons';
+// Removed invalid import for provideBootstrapIcons
+import { PersonCircle, Gear } from 'ng-bootstrap-icons/icons'; // Importa los íconos necesarios
 
 
 export const appConfig: ApplicationConfig = {
@@ -16,7 +20,9 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(withInterceptors([]), withFetch()), // Add fetch if needed
     provideAnimations(),
-    FontAwesomeModule
+    FontAwesomeModule,
+   //import boxarrowright from 'ng-bootstrap-icons/icons/box-arrow-right';
+    { provide: BootstrapIcons, useValue: { BoxArrowRight, PersonCircle, Gear } } // Add icons for logout, user, and settings
   ]
 };
 

@@ -1,8 +1,57 @@
 <nav class="navbar navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
     <span class="navbar-brand">Mi Dashboard</span>
-    <button class="navbar-toggler" (click)="toggleSidebar()">
-      ☰
-    </button>
+    <button class="navbar-toggler" (click)="toggleSidebar()">☰</button>
+  </div>
+</nav>
+
+<nav class="navbar navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <span class="navbar-brand">Mi Dashboard</span>
+    <div class="dropdown">
+      <button
+        class="navbar-toggler"
+        (click)="toggleDropdown()"
+        aria-expanded="false"
+        aria-label="Toggle user menu"
+      >
+        ☰
+      </button>
+      <div
+        class="dropdown-menu dropdown-menu-end"
+        [class.show]="isDropdownOpen"
+      >
+        <div class="px-4 py-3">
+          <div class="d-flex align-items-center">
+            <img
+              src="assets/images/user-avatar.png"
+              *ngIf="user?.avatar"
+              [src]="user.avatar"
+              alt="User Avatar"
+              class="rounded-circle me-2"
+            />
+            <div>
+              <h6 class="mb-0">{{ user.name }}</h6>
+              <small class="text-muted">{{ user.email }}</small>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item" (click)="toggleSidebar()">
+          <i biIcon="person-circle" class="me-2"></i> Mi perfil
+        </button>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item" (click)="logout()">
+            <i class="bi bi-box-arrow-right me-2" style="font-size: 1rem; vertical-align: middle;"></i> Cerrar sesión
+        </button>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item" (click)="toggleSidebar()">
+            <i class="bi bi-gear me-2" style="font-size: 1rem; vertical-align: middle;"></i> Configuración
+        </button>
+        <button class="dropdown-item" (click)="toggleSidebar()">
+            <i class="bi bi-info-circle me-2" style="font-size: 1rem; vertical-align: middle;"></i> Acerca de
+        </button>
+      </div>
+    </div>
   </div>
 </nav>

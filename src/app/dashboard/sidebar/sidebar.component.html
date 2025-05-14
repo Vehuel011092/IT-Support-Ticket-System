@@ -1,13 +1,24 @@
-<div class="h-100 d-flex flex-column">
-  <div class="p-3 border-bottom">
-    <h5>Menú</h5>
+<div class="h-100 d-flex flex-column align-items-center">
+  <div class="p-3 border-bottom w-100 text-center">
+    <h5 class="navMenu-Main" [class.active]="isActive('/dashboard/main')" (click)="navigateTo('/dashboard/main')">Menú</h5>
   </div>
-  <ul class="nav flex-column">
-    <li class="nav-item">
-      <a class="nav-link btn btn-danger w-100" routerLink="/dashboard/users" routerLinkActive="active">Usuarios</a>
+  <ul class="nav flex-column w-100">
+    <li class="nav-item custom-option">
+      <button 
+        class="nav-link btn btn-sm w-100 text-center"
+        [class.active]="isActive('/dashboard/users')"
+        (click)="navigateTo('/dashboard/users')">
+        Usuarios
+      </button>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/dashboard/tickets" routerLinkActive="active">Tickets</a>
+    <hr class="separator">
+    <li class="nav-item custom-option">
+      <button 
+        class="nav-link btn btn-sm w-100 text-center"
+        [class.active]="isActive('/dashboard/tickets')"
+        (click)="navigateTo('/dashboard/tickets')">
+        Tickets
+      </button>
     </li>
   </ul>
 </div>

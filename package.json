@@ -29,6 +29,7 @@
     "bootstrap": "^5.3.6",
     "express": "^4.18.2",
     "font-awesome": "^4.7.0",
+    "ng-bootstrap-icons": "^13.1.2-canary.1",
     "rxjs": "~7.8.0",
     "smart-webcomponents": "^22.0.0",
     "smart-webcomponents-angular": "^22.0.0",

@@ -1,0 +1,63 @@
+/* Asegura que el dropdown aparezca sobre otros elementos */
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  margin-top: 10px;
+  z-index: 1000;
+}
+
+/* Estilo para el botón de usuario */
+.navbar-toggler {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+  .dropdown-menu {
+    width: 100%;
+  }
+}
+
+.dropdown-menu {
+  transition: opacity 0.3s, transform 0.3s;
+  opacity: 0;
+  transform: translateY(-10px);
+  display: block !important; /* Necesario para animaciones */
+}
+.dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Estilo para el icono de usuario */
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #007bff; /* Cambia el color de fondo según tu diseño */
+}
+/* Estilo para el texto del usuario */
+.user-name {
+  margin-left: 10px;
+  font-size: 1rem;
+  color: #333; /* Cambia el color del texto según tu diseño */
+}
+
+/* Estilo para el contenedor del dropdown con animacion y hover */
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-container:hover .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Estilo para el contenedor del dropdown */
+.dropdown-container:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
