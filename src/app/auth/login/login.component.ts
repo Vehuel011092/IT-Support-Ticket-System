@@ -15,10 +15,15 @@ import { NgIf } from '@angular/common';
   
 })
 export class LoginComponent  {
-  @ViewChild('loginButton', { static: false }) loginButton!: ElementRef;
-
-  ngAfterViewInit() {
+  isLoading = true; // Cambia a true para mostrar el spinner al cargar el componente
+  isAuthenticated = false; // Cambia a true para mostrar el spinner al cargar el componente
+  ngOnInit() {
+    // Simula una carga de 2 segundos
+    setTimeout(() => {
+      this.isLoading = false; // Cambia a false para ocultar el spinner después de 2 segundos
+    }, 1000);
   }
+  
   credentials = {
     email: '',
     password: ''

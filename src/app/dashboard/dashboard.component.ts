@@ -16,6 +16,18 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 })
 export class DashboardComponent {
 sidebarVisible = true;
+  @ViewChild('sidebar', { static: false }) sidebar!: ElementRef;
+  @ViewChild('topNavbar', { static: false }) topNavbar!: ElementRef;
+  @ViewChild('content', { static: false }) content!: ElementRef;
+  @ViewChild('toggleButton', { static: false }) toggleButton!: ElementRef;
+  isLoading = true; // Cambia a true para mostrar el spinner al cargar el componente
+  isAuthenticated = false; // Cambia a true para mostrar el spinner al cargar el componente
+  ngOnInit() {
+    // Simula una carga de 2 segundos
+    setTimeout(() => {
+      this.isLoading = false; // Cambia a false para ocultar el spinner después de 2 segundos
+    }, 1500);
+  }
 
   toggleSidebar() {
     this.sidebarVisible = !this.sidebarVisible;

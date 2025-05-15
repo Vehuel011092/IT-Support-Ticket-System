@@ -19,9 +19,7 @@ export const routes: Routes = [
   // Componente de inicio de sesión
     { path: 'login', component: LoginComponent, title: 'Soporte UAD' },
     { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], children: dashboardRoutes, /* 👈 Rutas hijas*/ title: 'Soporte UAD' },
-    { path: '', redirectTo: 'init', /*Redirige la ruta raíz al login*/ pathMatch: 'full' },
-    { path: '**', redirectTo: 'login' /* Ruta comodín (404) también al login*/ }
-  
+    { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirige a la ruta de inicio de sesión por defecto
 ];
 // La propiedad 'canActivate' se utiliza para proteger la ruta de acceso al componente Dashboard.
 // Si el usuario no está autenticado, será redirigido al componente de inicio de sesión.

@@ -1,15 +1,21 @@
 /* Resalta el enlace activo */
 .nav-link.active {
   background-color: #007bff;
-  color: white !important;
+  color: #ff533a !important;
 }
 
 /* Cambia el color del texto al pasar el mouse */
 .nav-link:hover {
-  color: #007bff !important;
+  color: #ff533a !important;
 }
 /* añadir un hover a navMenu-Main, para indicar que se puede utilizar como un navegador para ir a "main"*/
 .navMenu-Main:hover {
   cursor: pointer;
-  color: #007bff !important;
+  color: #ff533a !important;
+}
+
+/*añade una animacion de click al hacer click sobre el boton*/
+.nav-link:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
 }

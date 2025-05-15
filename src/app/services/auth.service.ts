@@ -5,48 +5,39 @@ import { Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private isAuthChecked = false; // 👈 Nueva propiedad
   constructor(private router: Router, private http: HttpClient) { }
 
-  // Verifica el token al iniciar la app
-  initializeAuth(): Promise<boolean> {
-    return new Promise((resolve) => {
+  checkTokenOnInit(): Promise<boolean> {
       if (typeof Storage === 'undefined') {
-        this.router.navigate(['/login']); // Redirige al login si localStorage no está disponible
-        return;
+        this.router.navigate(['/login']);
+        return Promise.resolve(false);
       }
-      const token: string | null = localStorage.getItem('token');
-      if (!token) {
-        this.router.navigate(['/login']); // Redirige al login si no hay token
-        return;
-      }
-      this.isAuthChecked = true;
-      resolve(!!token); // Devuelve true si hay token
-    });
-  }
-
-  isAuthenticated(): boolean {
-    return this.isAuthChecked && !!localStorage.getItem('token');
-  }
-
-  checkTokenOnInit(): void {
     const token: string | null = localStorage.getItem('token');
-    //validar el token con el backend, al endpoint le tengo que pasar el token y si es valido me devuelve el usuario
-    this.http.get<{ valid: boolean }>('https://x8ki-letl-twmt.n7.xano.io/api:1yoDTzbI/auth/me', {
+    return new Promise((resolve) => {
+      this.http.get<{ valid: boolean }>('https://x8ki-letl-twmt.n7.xano.io/api:1yoDTzbI/auth/me', {
       headers: { Authorization: `Bearer ${token}` }
-    }).subscribe({
+      }).subscribe({
       next: (res) => {
         console.log('Token válido', res);
-        this.router.navigate(['/dashboard']); // Redirige al dashboard si el token es válido
+        this.router.navigate(['/dashboard']);
+        resolve(true); // Retorna true si el token es válido
       },
-      error: () => this.logout() // Error = token inválido
+      error: (err) => {
+        if (err.status === 401 || err.status === 403) {
+        this.logout();
+        resolve(false); // Token inválido
+        } else {
+        alert('Ocurrió un error al validar el token: ' + (err.error?.message || err.message || 'Error desconocido'));
+        resolve(false);
+        }
+      }
+      });
     });
   }
 
   // Método para cerrar sesión
   logout() {
     localStorage.removeItem('token'); // Elimina el token
-    localStorage.removeItem('email'); // Elimina el email
     this.router.navigate(['/login']); // Redirige al login
   }
 
@@ -58,7 +49,6 @@ export class AuthService {
     }).pipe(
       tap(response => {
         localStorage.setItem('token', response.authToken); // Guarda el token
-        localStorage.setItem('email', email); // Guarda el email
       })
     );
   }

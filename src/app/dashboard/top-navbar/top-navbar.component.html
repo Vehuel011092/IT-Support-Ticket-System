@@ -1,26 +1,13 @@
-<nav class="navbar navbar-dark bg-dark fixed-top">
-  <div class="container-fluid">
-    <span class="navbar-brand">Mi Dashboard</span>
-    <button class="navbar-toggler" (click)="toggleSidebar()">☰</button>
-  </div>
-</nav>
-
-<nav class="navbar navbar-dark bg-dark fixed-top">
-  <div class="container-fluid">
-    <span class="navbar-brand">Mi Dashboard</span>
+<!-- Top Navbar Component -->
+<nav class="navbar" style="background-color: #dc3545; padding: 0.25rem 1rem;">
+  <div class="container-fluid p-0 d-flex justify-content-between align-items-center">
+    <span class="navbar-brand text-white mt-2 justify-content-between align-items-center" style="font-size: 1.1rem;">Mi Dashboard</span>
     <div class="dropdown">
-      <button
-        class="navbar-toggler"
-        (click)="toggleDropdown()"
-        aria-expanded="false"
-        aria-label="Toggle user menu"
-      >
+      <button class="navbar-toggler text-white border-0" (click)="toggleDropdown()" aria-expanded="false" aria-label="Toggle user menu" style="font-size: 1.5rem;">
+        <i class="bi bi-person-circle"></i>
         ☰
       </button>
-      <div
-        class="dropdown-menu dropdown-menu-end"
-        [class.show]="isDropdownOpen"
-      >
+      <div class="dropdown-menu dropdown-menu-end" [class.show]="isDropdownOpen">
         <div class="px-4 py-3">
           <div class="d-flex align-items-center">
             <img
@@ -29,6 +16,7 @@
               [src]="user.avatar"
               alt="User Avatar"
               class="rounded-circle me-2"
+              style="width: 32px; height: 32px;"
             />
             <div>
               <h6 class="mb-0">{{ user.name }}</h6>
@@ -37,19 +25,22 @@
           </div>
         </div>
         <div class="dropdown-divider"></div>
-        <button class="dropdown-item" (click)="toggleSidebar()">
-          <i biIcon="person-circle" class="me-2"></i> Mi perfil
+        <button class="dropdown-item d-flex align-items-center" (click)="toggleSidebar()">
+          <i class="bi bi-person-circle me-2"></i> Mi perfil
         </button>
         <div class="dropdown-divider"></div>
-        <button class="dropdown-item" (click)="logout()">
-            <i class="bi bi-box-arrow-right me-2" style="font-size: 1rem; vertical-align: middle;"></i> Cerrar sesión
+        <button class="dropdown-item d-flex align-items-center" (click)="logout()">
+          <i class="bi bi-box-arrow-right me-2" style="font-size: 1rem;"></i>
+          Cerrar sesión
         </button>
         <div class="dropdown-divider"></div>
-        <button class="dropdown-item" (click)="toggleSidebar()">
-            <i class="bi bi-gear me-2" style="font-size: 1rem; vertical-align: middle;"></i> Configuración
+        <button class="dropdown-item d-flex align-items-center" (click)="toggleSidebar()">
+          <i class="bi bi-gear me-2"></i>
+          Configuración
         </button>
-        <button class="dropdown-item" (click)="toggleSidebar()">
-            <i class="bi bi-info-circle me-2" style="font-size: 1rem; vertical-align: middle;"></i> Acerca de
+        <button class="dropdown-item d-flex align-items-center" (click)="toggleSidebar()">
+          <i class="bi bi-info-circle me-2" style="font-size: 1rem;"></i>
+          Acerca de
         </button>
       </div>
     </div>
