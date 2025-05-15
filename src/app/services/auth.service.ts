@@ -11,7 +11,7 @@ export class AuthService {
       if (typeof Storage === 'undefined') {
         this.router.navigate(['/login']);
         return Promise.resolve(false);
-      }
+      }else {
     const token: string | null = localStorage.getItem('token');
     return new Promise((resolve) => {
       this.http.get<{ valid: boolean }>('https://x8ki-letl-twmt.n7.xano.io/api:1yoDTzbI/auth/me', {
@@ -33,6 +33,7 @@ export class AuthService {
       }
       });
     });
+  }
   }
 
   // Método para cerrar sesión
