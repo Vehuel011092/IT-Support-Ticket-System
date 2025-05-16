@@ -18,18 +18,27 @@ export class LoginComponent  {
   isLoading = true; // Cambia a true para mostrar el spinner al cargar el componente
   isAuthenticated = false; // Cambia a true para mostrar el spinner al cargar el componente
   ngOnInit() {
-      this.authService.checkAuth().then((isAuthenticated: boolean) => {
+    // Verifica si existe el token antes de validar autenticación
+    const token = this.authService.getLocalStorage<string>('token', '');
+    if (!token) {
+      this.isLoading = false;
+      return;
+    }else {
+    this.authService.checkAuth().then((isAuthenticated: boolean) => {
       this.isAuthenticated = isAuthenticated;
       if (!isAuthenticated) {
-       //como ya estamos en login, no redirigimos
-      }else {
-        this.router.navigate(['/dashboard']);
+      //como ya estamos en login, no redirigimos
+      this.isLoading = false;
+      } else {
+      this.isLoading = false;
+      this.router.navigate(['/dashboard']);
       }
+    }).catch((error: any) => {
+      this.isLoading = false;
+      console.error('Error al verificar autenticación:', error);
     });
+    }
     // Simula una carga de 2 segundos
-    setTimeout(() => {
-      this.isLoading = false; // Cambia a false para ocultar el spinner después de 2 segundos
-    }, 1000);
   }
   
   credentials = {

@@ -6,8 +6,7 @@ import { Observable, tap } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private authChecked = false;
-  constructor(private router: Router, private http: HttpClient) {
-   }
+  constructor(private router: Router, private http: HttpClient) { }
 
   async checkAuth(): Promise<boolean> {
 
