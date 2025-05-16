@@ -18,6 +18,14 @@ export class LoginComponent  {
   isLoading = true; // Cambia a true para mostrar el spinner al cargar el componente
   isAuthenticated = false; // Cambia a true para mostrar el spinner al cargar el componente
   ngOnInit() {
+      this.authService.checkAuth().then((isAuthenticated: boolean) => {
+      this.isAuthenticated = isAuthenticated;
+      if (!isAuthenticated) {
+       //como ya estamos en login, no redirigimos
+      }else {
+        this.router.navigate(['/dashboard']);
+      }
+    });
     // Simula una carga de 2 segundos
     setTimeout(() => {
       this.isLoading = false; // Cambia a false para ocultar el spinner después de 2 segundos
@@ -52,7 +60,6 @@ export class LoginComponent  {
     this.authService.login(this.credentials.email, this.credentials.password).subscribe({
       next: () => {
         this.router.navigate(['/dashboard']); // Redirige al dashboard
-        console.log('Inicio de sesión exitoso'); // Mensaje simple
       },
       error: () => {
         this.errorMessage = 'Error al iniciar sesión'; // Mensaje simple

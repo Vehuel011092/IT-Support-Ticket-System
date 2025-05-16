@@ -4,7 +4,6 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { ElementRef, ViewChild } from '@angular/core';
-import { AfterViewInit } from '@angular/core';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
@@ -21,7 +20,6 @@ sidebarVisible = true;
   @ViewChild('content', { static: false }) content!: ElementRef;
   @ViewChild('toggleButton', { static: false }) toggleButton!: ElementRef;
   isLoading = true; // Cambia a true para mostrar el spinner al cargar el componente
-  isAuthenticated = false; // Cambia a true para mostrar el spinner al cargar el componente
   ngOnInit() {
     // Simula una carga de 2 segundos
     setTimeout(() => {
