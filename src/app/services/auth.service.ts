@@ -29,7 +29,7 @@ export class AuthService {
   private validateToken(token: string): Promise<boolean> {
     // Ejemplo: Petición HTTP al backend
     return new Promise((resolve) => {
-      this.http.get<boolean>('https://x8ki-letl-twmt.n7.xano.io/api:1yoDTzbI/auth/me', {
+      this.http.get<boolean>('http://localhost:8080/auth/me', {
         headers: { Authorization: `Bearer ${token}` }
       }).subscribe({
         next: (res) => {
@@ -86,15 +86,16 @@ export class AuthService {
     this.router.navigate(['/login']); // Redirige al login
   }
 
-  login(email: string, password: string): Observable<{ authToken: string }> {
+  login(email: string, password: string): Observable<{ token: string }> {
     // Aquí puedes agregar la lógica para obtener el authToken
-    return this.http.post<{ authToken: string }>('https://x8ki-letl-twmt.n7.xano.io/api:1yoDTzbI/auth/login', {
+    return this.http.post<{ token: string }>('http://localhost:8080/auth/login', {
       email,
       password,
     }).pipe(
       tap(response => {
         console.log('Inicio de sesión exitoso'); // Mensaje simple
-        this.setLocalStorage('token', response.authToken);
+        console.log('Respuesta del servidor:', response.token);
+        this.setLocalStorage('token', response.token);
       })
     );
   }
