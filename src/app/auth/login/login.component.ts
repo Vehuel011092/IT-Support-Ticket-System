@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef  } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
@@ -10,48 +10,51 @@ import { NgIf } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   providers: [AuthService],
-  imports: [FormsModule,NgIf],
+  imports: [FormsModule, NgIf],
   standalone: true,
-  
+
 })
-export class LoginComponent  {
+export class LoginComponent {
   isLoading = true; // Cambia a true para mostrar el spinner al cargar el componente
   isAuthenticated = false; // Cambia a true para mostrar el spinner al cargar el componente
-  ngOnInit() {
-    // Verifica si existe el token antes de validar autenticación
-    const token = this.authService.getLocalStorage<string>('token', '');
+  async ngOnInit(): Promise<void> {
+    // Verificación inicial síncrona del token
+    const token = this.authService.getLocalStorageToken();
+
     if (!token) {
-      this.isLoading = false;
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
       return;
-    }else {
-    this.authService.checkAuth().then((isAuthenticated: boolean) => {
-      this.isAuthenticated = isAuthenticated;
-      if (!isAuthenticated) {
-      //como ya estamos en login, no redirigimos
-      this.isLoading = false;
-      } else {
-      this.isLoading = false;
-      this.router.navigate(['/dashboard']);
-      }
-    }).catch((error: any) => {
-      this.isLoading = false;
-      console.error('Error al verificar autenticación:', error);
-    });
     }
-    // Simula una carga de 2 segundos
+
+    try {
+      // Verificación real solo si existe token
+      const isValid = await this.authService.validateToken(token);
+
+      if (isValid) {
+        this.router.navigate(['/dashboard']);
+      }
+
+    } catch (error) {
+      console.error('Error validando token:', error);
+      this.authService.clearToken(); // Limpiar token inválido
+    } finally {
+      this.isLoading = false;
+    }
   }
-  
+
   credentials = {
     email: '',
     password: ''
   };
 
-   errorMessage: string = ''; // Added property to handle error messages
+  errorMessage: string = ''; // Added property to handle error messages
 
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   onSubmit() {
     //quiero validar que el email y la contraseña no esten vacios
@@ -67,12 +70,33 @@ export class LoginComponent  {
     }
 
     this.authService.login(this.credentials.email, this.credentials.password).subscribe({
-      next: () => {
+      next: (response) => {
+      if (response?.status === 'success') {
+        console.log(response);
+        this.authService.setLocalStorageToken('token', response.token)
         this.router.navigate(['/dashboard']); // Redirige al dashboard
+      } else if (response?.status === 'error') {
+        switch (response.code) {
+        case 'USER_NOT_FOUND':
+          this.errorMessage = 'El correo no está registrado';
+          break;
+        case 'INVALID_PASSWORD':
+          this.errorMessage = 'Contraseña incorrecta';
+          break;
+        case 'SERVER_ERROR':
+          this.errorMessage = 'Error interno del servidor';
+          break;
+        default:
+          this.errorMessage = 'Error desconocido';
+          break;
+        }
+      } else {
+        this.errorMessage = 'Respuesta inesperada del servidor';
+      }
       },
-      error: () => {
-        this.errorMessage = 'Error al iniciar sesión'; // Mensaje simple
-        console.error('Error al iniciar sesión'); // Mensaje simple
+      error: (error) => {
+      this.errorMessage = 'No se pudo conectar con el servidor';
+      console.error('Error al iniciar sesión', error);
       }
     });
   }

@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private authChecked = false;
+ apiUrl: string = "http://localhost:8080";
   constructor(private router: Router, private http: HttpClient) { }
 
   async checkAuth(): Promise<boolean> {
 
     if (this.authChecked) {
-      return  !!this.getLocalStorage<string>('token', '');
+      return !!this.getLocalStorageToken();
     }
-    const token = this.getLocalStorage<string>('token', '');
+    const token = this.getLocalStorageToken();
     this.authChecked = true;
     if (token) {
       try {
-        const isValid = await this.validateToken(await token); // Implementa esta función
+        const isValid = await this.validateToken(token); // Implementa esta función
         return isValid;
       } catch {
         return false;
@@ -26,7 +27,7 @@ export class AuthService {
     return false;
   }
 
-  private validateToken(token: string): Promise<boolean> {
+  public validateToken(token: string): Promise<boolean> {
     // Ejemplo: Petición HTTP al backend
     return new Promise((resolve) => {
       this.http.get<boolean>('http://localhost:8080/auth/me', {
@@ -50,27 +51,27 @@ export class AuthService {
     });
   }
 
-  // Angular version of useLocalStorage as a single function
-  async getLocalStorage<T>(key: string, initialValue: T): Promise<T> {
+  // Angular version of useLocalStorage as a single function sin parámetros
+  getLocalStorageToken(): string | null {
     if (typeof localStorage === 'undefined') {
-      return initialValue;
+      return null;
     }
     try {
+      const key = 'token';
       const item = localStorage.getItem(key);
-      if (!item) return initialValue;
-      try {
-        return JSON.parse(item) as T;
-      } catch {
-        // Si no es JSON válido, retorna el string tal cual (útil para tokens)
-        return item as unknown as T;
-      }
+      return item ? item : null;
     } catch (error) {
       console.log(error);
-      return initialValue;
+      return null;
     }
   }
 
-  setLocalStorage(key: string, value: string): void {
+  // Limpiar credenciales
+clearToken(): void {
+  localStorage.removeItem('token');
+}
+
+  setLocalStorageToken(key: string, value: string): void {
     try {
       if (typeof localStorage === 'undefined') {
         return;
@@ -86,17 +87,7 @@ export class AuthService {
     this.router.navigate(['/login']); // Redirige al login
   }
 
-  login(email: string, password: string): Observable<{ token: string }> {
-    // Aquí puedes agregar la lógica para obtener el authToken
-    return this.http.post<{ token: string }>('http://localhost:8080/auth/login', {
-      email,
-      password,
-    }).pipe(
-      tap(response => {
-        console.log('Inicio de sesión exitoso'); // Mensaje simple
-        console.log('Respuesta del servidor:', response.token);
-        this.setLocalStorage('token', response.token);
-      })
-    );
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/login`, { email, password });
   }
 }

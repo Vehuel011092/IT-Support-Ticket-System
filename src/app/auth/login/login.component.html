@@ -95,44 +95,44 @@
                   required
                 />
               </div>
-                <button
+              <button
                 #loginButton
                 type="submit"
                 class="btn btn-danger w-100 loginButton"
                 [disabled]="isLoading"
-                >
+              >
                 Login
-                </button>
-                <ng-container *ngIf="isLoading">
+              </button>
+              <ng-container *ngIf="isLoading">
                 <div
                   class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-                  style="z-index: 1050; background: rgba(255,255,255,0.7);"
+                  style="z-index: 1050; background: rgba(255, 255, 255, 0.7)"
                 >
                   <div
-                  style="
-                    background: #fff;
-                    border: 2px solid #000;
-                    border-radius: 8px;
-                    padding: 2rem 3rem;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-                  "
+                    style="
+                      background: #fff;
+                      border: 2px solid #000;
+                      border-radius: 8px;
+                      padding: 2rem 3rem;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+                    "
                   >
-                  <div
-                    class="spinner-border text-danger"
-                    role="status"
-                    style="width: 3rem; height: 3rem"
-                  ></div>
-                  <span
-                    class="text-danger mt-3"
-                    style="font-size: 1.2rem; font-weight: bold"
-                    >Cargando...</span
-                  >
+                    <div
+                      class="spinner-border text-danger"
+                      role="status"
+                      style="width: 3rem; height: 3rem"
+                    ></div>
+                    <span
+                      class="text-danger mt-3"
+                      style="font-size: 1.2rem; font-weight: bold"
+                      >Cargando...</span
+                    >
                   </div>
                 </div>
-                </ng-container>
+              </ng-container>
               <p *ngIf="errorMessage" class="text-danger mt-2">
                 {{ errorMessage }}
               </p>
