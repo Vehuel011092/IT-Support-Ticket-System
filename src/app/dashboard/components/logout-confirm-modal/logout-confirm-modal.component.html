@@ -1,0 +1,11 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>¿Estás seguro de cerrar sesión?</h3>
+    <div class="modal-actions d-flex justify-content-center gap-2 mt-3">
+      <button class="btn btn-confirm" (click)="confirmLogout()">
+        Sí, cerrar sesión
+      </button>
+      <button class="btn btn-cancel" (click)="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>

@@ -72,8 +72,8 @@ export class LoginComponent {
     this.authService.login(this.credentials.email, this.credentials.password).subscribe({
       next: (response) => {
       if (response?.status === 'success') {
-        console.log(response);
         this.authService.setLocalStorageToken('token', response.token)
+        localStorage.setItem('id', JSON.stringify(response.user.id)); // Guarda el id en localStorage
         this.router.navigate(['/dashboard']); // Redirige al dashboard
       } else if (response?.status === 'error') {
         switch (response.code) {

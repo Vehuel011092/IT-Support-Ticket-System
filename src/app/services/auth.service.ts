@@ -84,6 +84,7 @@ clearToken(): void {
   // Método para cerrar sesión
   logout() {
     localStorage.removeItem('token'); // Elimina el token
+    localStorage.removeItem('id'); // Elimina el token
     this.router.navigate(['/login']); // Redirige al login
   }
 

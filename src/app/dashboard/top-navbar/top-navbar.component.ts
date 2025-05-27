@@ -5,40 +5,75 @@ import { NgIf } from '@angular/common';
 import { BootstrapIconsModule } from 'ng-bootstrap-icons';
 import { BoxArrowRight } from 'ng-bootstrap-icons/icons';
 import { IconsModule } from '../../icons/icons.module';
+import { UserService } from '../../services/user.service'; // Asegúrate de que esta ruta sea correcta
+import { LogoutConfirmModalComponent } from "../components/logout-confirm-modal/logout-confirm-modal.component";
 
 @Component({
   selector: 'app-top-navbar',
   standalone: true,
-  imports: [CommonModule, BootstrapIconsModule,IconsModule, NgIf],
+  imports: [CommonModule, BootstrapIconsModule, IconsModule, NgIf, LogoutConfirmModalComponent],
   templateUrl: './top-navbar.component.html',
   styleUrls: ['./top-navbar.component.css']
 })
 export class TopNavbarComponent {
   @Output() toggleSidebarEvent = new EventEmitter<void>();
+  showModal = false;
+  role: any; 
+  name: any; 
+  email: any; 
+  constructor(private router: Router, private userService: UserService) {}
+  //inicializar variables del usuario como su nombre, email, rol 
+  
+  ngOnInit() {
+    this.userService.getUserProfile(localStorage.getItem('id')).subscribe({
+      next: (user) => {
+         this.name = user.name || 'Guest';
+         this.email = user.email || 'Guest';
+         this.role = JSON.stringify(user.roles).split('"roleName":"')[1].split('"')[0]
+         this.setUserData(user);
+      },
+      error: (error) => {
+        console.error('Error al obtener el perfil del usuario:', error);
+      }
+    });
+  } 
+  setUserData(user: any) {
+    if (!user) {
+      return;
+    }
+  }
+  
 
   toggleSidebar() {
     this.toggleSidebarEvent.emit();
   }
    isDropdownOpen = false;
-  user = {
-    name: 'Admin User',  // Reemplaza con datos reales (ej: desde un servicio)
-    email: 'admin@example.com', // Reemplaza con datos reales (ej: desde un servicio)
-    role: 'Administrator', // Reemplaza con datos reales (ej: desde un servicio)
-    avatar: 'https://via.placeholder.com/150' // URL de la imagen del avatar
-  };
+   
+  get user() {
+    return {
+      name: this.name,
+      email: this.email,
+      role: this.role,
+      avatar: 'https://via.placeholder.com/150' // URL de la imagen del avatar
+    };
+  }
 
   // Configura íconos (si usas ng-bootstrap-icons)
   icons = { BoxArrowRight };
-
-  constructor(private router: Router) {}
 
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  logout(): void {
+  openLogoutModal() {
+    this.showModal = true;
+  }
+
+  handleLogout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
+    this.showModal = false;
   }
+  
 }
 // Este componente es una barra de navegación superior que emite un evento para alternar la visibilidad de la barra lateral (sidebar) cuando se hace clic en el botón de menú.
