@@ -19,3 +19,10 @@
   transform: scale(0.95);
   transition: transform 0.1s ease;
 }
+/*añade el hover efecto para los "collapsed items"*/
+.collapse-item:hover {
+  background-color: #007bff;
+  color: #ff533a !important;
+  cursor: pointer;
+}
+

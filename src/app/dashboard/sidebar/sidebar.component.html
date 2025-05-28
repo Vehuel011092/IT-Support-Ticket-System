@@ -7,10 +7,11 @@
   <ul class="nav flex-column w-100">
     <li class="nav-item custom-option mb-2">
       <button 
-        class="nav-link btn btn-sm w-100 text-center text-black bg-white border border-light rounded-pill fw-semibold"
-        [class.active]="isActive('/dashboard/users')"
-        (click)="navigateTo('/dashboard/users')">
-        Usuarios
+      class="nav-link btn btn-sm w-100 text-center text-black bg-white border border-light rounded-pill fw-semibold d-flex align-items-center justify-content-center"
+      [class.active]="isActive('/dashboard/users')"
+      (click)="navigateTo('/dashboard/users')">
+      <i class="fas fa-user me-2"></i>
+      Usuarios
       </button>
     </li>
     <li>
@@ -18,11 +19,72 @@
     </li>
     <li class="nav-item custom-option mb-2">
       <button 
-        class="nav-link btn btn-sm w-100 text-center text-black bg-white border border-light rounded-pill fw-semibold"
+        class="nav-link btn btn-sm w-100 text-center text-black bg-white border border-light rounded-pill fw-semibold d-flex align-items-center justify-content-center"
         [class.active]="isActive('/dashboard/tickets')"
         (click)="navigateTo('/dashboard/tickets')">
+        <i class="fas fa-ticket-alt me-2"></i>
         Tickets
       </button>
     </li>
+
+    <!-- Heading -->
+    <div class="sidebar-heading text-white mt-3 mb-2">
+      Interface
+    </div>
+
+    <!-- Nav Item - Components Collapse Menu -->
+    <li class="nav-item custom-option mb-2">
+      <button 
+      class="nav-link btn btn-sm w-100 text-center text-black bg-white border border-light rounded-pill fw-semibold d-flex align-items-center justify-content-between"
+      (click)="toggleComponentsMenu()"
+      [attr.aria-expanded]="componentsMenuOpen"
+      type="button">
+      <span>
+        <i class="fas fa-fw fa-cog me-2"></i>
+        Components
+      </span>
+      <i class="fas" [ngClass]="{'fa-chevron-down': !componentsMenuOpen, 'fa-chevron-up': componentsMenuOpen}"></i>
+      </button>
+      <div *ngIf="componentsMenuOpen" class="bg-white py-2 collapse-inner rounded shadow-sm mt-1">
+      <h6 class="collapse-header px-3">Custom Components:</h6>
+      <a class="collapse-item btn btn-sm w-100 text-start text-black bg-light border-0 rounded-pill fw-normal px-3 mb-1"
+         routerLink="/dashboard/buttons" routerLinkActive="active">Buttons</a>
+      <a class="collapse-item btn btn-sm w-100 text-start text-black bg-light border-0 rounded-pill fw-normal px-3"
+         routerLink="/dashboard/cards" routerLinkActive="active">Cards</a>
+      </div>
+    </li>
+
+    <!-- Nav Item - Utilities Collapse Menu -->
+    <li class="nav-item custom-option mb-2">
+      <button 
+      class="nav-link btn btn-sm w-100 text-center text-black bg-white border border-light rounded-pill fw-semibold d-flex align-items-center justify-content-between"
+      (click)="toggleUtilitiesMenu()"
+      [attr.aria-expanded]="utilitiesMenuOpen"
+      type="button">
+      <span>
+      <i class="fas fa-fw fa-wrench me-2"></i>
+      Utilities
+      </span>
+      <i class="fas" [ngClass]="{'fa-chevron-down': !utilitiesMenuOpen, 'fa-chevron-up': utilitiesMenuOpen}"></i>
+      </button>
+      <div *ngIf="utilitiesMenuOpen" class="bg-white py-2 collapse-inner rounded shadow-sm mt-1">
+      <h6 class="collapse-header px-3">Custom Utilities:</h6>
+      <a class="collapse-item btn btn-sm w-100 text-start text-black bg-light border-0 rounded-pill fw-normal px-3 mb-1"
+       routerLink="/dashboard/utilities-color" routerLinkActive="active"
+      >Colors</a>
+      <a class="collapse-item btn btn-sm w-100 text-start text-black bg-light border-0 rounded-pill fw-normal px-3 mb-1"
+       routerLink="/dashboard/utilities-border" routerLinkActive="active"
+      >Borders</a>
+      <a class="collapse-item btn btn-sm w-100 text-start text-black bg-light border-0 rounded-pill fw-normal px-3 mb-1"
+       routerLink="/dashboard/utilities-animation" routerLinkActive="active"
+      >Animations</a>
+      <a class="collapse-item btn btn-sm w-100 text-start text-black bg-light border-0 rounded-pill fw-normal px-3"
+       routerLink="/dashboard/utilities-other" routerLinkActive="active"
+      >Other</a>
+      </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
   </ul>
 </div>

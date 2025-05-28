@@ -3,7 +3,7 @@
   <app-top-navbar class="top-navbar" (toggleSidebarEvent)="toggleSidebar()"></app-top-navbar>
   <div class="d-flex flex-grow-1">
     <!-- Sidebar -->
-    <app-sidebar class="sidebar" [class.show]="sidebarVisible"></app-sidebar>
+    <app-sidebar class="sidebar flex-shrink-0" [class.show]="sidebarVisible" style="min-width: 220px; max-width: 270px; width: 16vw;"></app-sidebar>
     <!-- Contenido dinámico -->
     <div class="main-content flex-grow-1 p-4">
       <router-outlet></router-outlet>

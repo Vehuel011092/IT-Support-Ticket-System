@@ -1,5 +1,5 @@
 <!-- Top Navbar Component -->
-<nav class="navbar" style="background-color: #dc3545; padding: 0.25rem 1rem">
+<nav class="navbar border-bottom border-white" style="background-color: #dc3545; padding: 0.25rem 1rem">
   <div
     class="container-fluid p-0 d-flex justify-content-between align-items-center"
   >
@@ -8,6 +8,49 @@
       style="font-size: 1.1rem"
       >Mi Dashboard</span
     >
+    <!-- Topbar Search -->
+    <form
+      class="d-none d-sm-inline-block form-inline my-2 my-md-0 mw-100"
+      (submit)="onSearch(searchInput.value); $event.preventDefault();"
+    >
+      <div class="input-group">
+        <input
+          #searchInput
+          type="text"
+          class="form-control me-1"
+          placeholder="Buscar..."
+          aria-label="Buscar"
+          aria-describedby="button-search"
+        />
+        <button
+          class="btn btn-danger"
+          type="submit"
+          id="button-search"
+            (click)="triggerSplash()"
+            style="border: 2px solid #fff; line-height: 2;"
+            class="btn btn-danger"
+          >
+          <i class="fas fa-search fa-sm"></i>
+        </button>
+      </div>
+    </form>
+
+    <style>
+      .search-box {
+        transition: box-shadow 0.2s;
+      }
+      .search-box.search-active {
+        box-shadow: 0 0 0 0.2rem rgba(220,53,69,0.25);
+      }
+      .btn.splash {
+        animation: splash 0.3s;
+      }
+      @keyframes splash {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+        100% { transform: scale(1); }
+      }
+    </style>
     <div class="dropdown">
       <button
         class="navbar-toggler text-white border-0"
@@ -76,8 +119,8 @@
     </div>
   </div>
 </nav>
-  <app-logout-confirm-modal
-    *ngIf="showModal"
-    (confirmed)="handleLogout()"
-    (canceled)="showModal = false"
-  ></app-logout-confirm-modal>
+<app-logout-confirm-modal
+  *ngIf="showModal"
+  (confirmed)="handleLogout()"
+  (canceled)="showModal = false"
+></app-logout-confirm-modal>

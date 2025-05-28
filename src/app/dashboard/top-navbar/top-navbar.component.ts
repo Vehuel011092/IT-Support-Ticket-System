@@ -21,6 +21,7 @@ export class TopNavbarComponent {
   role: any; 
   name: any; 
   email: any; 
+  splashActive = false;
   constructor(private router: Router, private userService: UserService) {}
   //inicializar variables del usuario como su nombre, email, rol 
   
@@ -77,6 +78,20 @@ export class TopNavbarComponent {
     this.router.navigate(['/login']);
     this.showModal = false;
   }
+
+// Method to trigger the splash animation
+triggerSplash() {
+  this.splashActive = true;
+  setTimeout(() => {
+    this.splashActive = false;
+  }, 300); // Duration matches the CSS animation
+}
+
+// Add this method to handle search
+onSearch(query: string): void {
+  // Implement your search logic here
+  console.log('Search query:', query);
+}
   
 }
 // Este componente es una barra de navegación superior que emite un evento para alternar la visibilidad de la barra lateral (sidebar) cuando se hace clic en el botón de menú.
