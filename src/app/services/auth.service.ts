@@ -91,4 +91,20 @@ clearToken(): void {
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/auth/login`, { email, password });
   }
+
+  setLastLogin(): void {
+    const token = this.getLocalStorageToken();
+    if (!token) {
+      return;
+    }
+    this.http.post(`${this.apiUrl}/auth/last-login`, {}, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: () => {
+      },
+      error: (err) => {
+        console.error('Error updating last login:', err);
+      }
+    });
+  }
 }

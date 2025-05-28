@@ -71,7 +71,7 @@ export class LoginComponent {
 
     this.authService.login(this.credentials.email, this.credentials.password).subscribe({
       next: (response) => {
-      if (response?.status === 'success') {
+      if (response?.status === 'success' && response.user?.status === 'active') {
         this.authService.setLocalStorageToken('token', response.token)
         this.router.navigate(['/dashboard']); // Redirige al dashboard
       } else if (response?.status === 'error') {
@@ -89,7 +89,11 @@ export class LoginComponent {
           this.errorMessage = 'Error desconocido';
           break;
         }
-      } else {
+      }else if(response.user?.status === 'deactived')
+      {
+        this.errorMessage = 'El usuario se encuentra desactivado';
+      }
+       else {
         this.errorMessage = 'Respuesta inesperada del servidor';
       }
       },
