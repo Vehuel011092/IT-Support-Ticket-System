@@ -25,18 +25,21 @@ export class TopNavbarComponent {
   //inicializar variables del usuario como su nombre, email, rol 
   
   ngOnInit() {
-    this.userService.getUserProfile(localStorage.getItem('id')).subscribe({
-      next: (user) => {
-         this.name = user.name || 'Guest';
-         this.email = user.email || 'Guest';
-         this.role = JSON.stringify(user.roles).split('"roleName":"')[1].split('"')[0]
-         this.setUserData(user);
-      },
-      error: (error) => {
-        console.error('Error al obtener el perfil del usuario:', error);
-      }
-    });
-  } 
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.userService.getCurrentUser(token).subscribe({
+        next: (user) => {
+          this.name = user.name || 'Guest';
+          this.email = user.email || 'Guest';
+          this.role = user.role || 'Guest';
+          this.setUserData(user);
+        },
+        error: (error) => {
+          console.error('Error al obtener el perfil del usuario:', error);
+        }
+      });
+    }
+  }
   setUserData(user: any) {
     if (!user) {
       return;

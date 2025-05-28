@@ -6,10 +6,11 @@ import { NgIf } from '@angular/common';
 import { ElementRef, ViewChild } from '@angular/core';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { FooterComponent } from '../dashboard/components/footer/footer.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterModule, FormsModule, NgIf,CommonModule, TopNavbarComponent, SidebarComponent, RouterOutlet],
+  imports: [CommonModule, RouterModule, FormsModule, NgIf,CommonModule, TopNavbarComponent, SidebarComponent, RouterOutlet, FooterComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
