@@ -10,7 +10,7 @@ export class UserService {
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
- //get user profile with id
+  //get user profile with id
   getUserProfile(id: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/user/${id}`, {
       headers: { Authorization: `Bearer ${this.authService.getLocalStorageToken()}` }
@@ -22,10 +22,26 @@ export class UserService {
     );
   }
 
-   getCurrentUser(token: string): Observable<any> {
+  getCurrentUser(token: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     return this.http.get(`${this.apiUrl}/user/current-user`, { headers });
   }
+
+  getUsers(): Observable<any[]> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getLocalStorageToken()}`
+    });
+    return this.http.get<any[]>(`${this.apiUrl}/user`, { headers });
+  }
+
+  // delete user by id
+  deleteUser(id: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getLocalStorageToken()}`
+    });
+    return this.http.delete<any>(`${this.apiUrl}/user/${id}`, { headers });
+  }
+  
 }
