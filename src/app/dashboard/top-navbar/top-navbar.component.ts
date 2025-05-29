@@ -6,7 +6,7 @@ import { BootstrapIconsModule } from 'ng-bootstrap-icons';
 import { BoxArrowRight } from 'ng-bootstrap-icons/icons';
 import { IconsModule } from '../../icons/icons.module';
 import { UserService } from '../../services/user.service'; // Asegúrate de que esta ruta sea correcta
-import { LogoutConfirmModalComponent } from "../components/logout-confirm-modal/logout-confirm-modal.component";
+import { LogoutConfirmModalComponent } from "../components/modals/logout-confirm-modal/logout-confirm-modal.component";
 import { dropDownMenu } from '../../icons/animations';
 	
 
