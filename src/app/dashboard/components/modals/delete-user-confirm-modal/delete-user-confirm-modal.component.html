@@ -1,0 +1,42 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3 class="modal-title">Confirmar Eliminación</h3>
+      <button class="close-btn" (click)="closeModal()">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+      <div *ngIf="user" class="user-info">
+        <div class="avatar-container">
+          <img src="assets/default-avatar.png" 
+               alt="Avatar" class="user-avatar">
+        </div>
+        <div class="user-details">
+          <p><strong>ID:</strong> {{user.id}}</p>
+          <p><strong>Nombre:</strong> {{user.name}}</p>
+          <p><strong>Email:</strong> {{user.email}}</p>
+          <ng-container *ngIf="user.roles && user.roles.length > 0">
+            <p><strong>Rol:</strong>
+              <span *ngFor="let role of user.roles; let last = last">
+                {{ role.name }}<span *ngIf="!last">, </span>
+              </span>
+            </p>
+          </ng-container>
+          <ng-container *ngIf="!user.roles || user.roles.length === 0">
+            <p><strong>Rol:</strong> Sin rol</p>
+          </ng-container>
+        </div>
+      </div>
+      
+      <div class="confirmation-message">
+        <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+        <p class="warning">Esta acción no se puede deshacer.</p>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-cancel" (click)="closeModal()">Cancelar</button>
+      <button class="btn btn-confirm" (click)="confirmDelete()">Eliminar Usuario</button>
+    </div>
+  </div>
+</div>

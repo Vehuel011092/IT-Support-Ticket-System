@@ -1,0 +1,10 @@
+/* Puedes reutilizar los estilos del modal de creación */
+.role-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.role-checkbox input {
+  margin-right: 8px;
+}

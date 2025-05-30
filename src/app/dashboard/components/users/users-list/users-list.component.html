@@ -1,23 +1,29 @@
 <div class="user-management">
   <div class="header">
     <h2>Administración de Usuarios</h2>
-    
+
     <div class="controls">
       <div class="search-box">
-        <input type="text" 
-               [(ngModel)]="searchTerm" 
-               (input)="searchUsers()"
-               placeholder="Buscar por nombre, email o ID">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="searchUsers()"
+          placeholder="Buscar por nombre, email o ID"
+        />
         <i class="bi bi-search"></i>
       </div>
     </div>
   </div>
 
-<div class="d-flex justify-content-start mb-3">
-    <button type="button" class="btn btn-primary btn-add" (click)="createUser()">
-        <i class="bi bi-plus-lg"></i> Nuevo Usuario
+  <div class="d-flex justify-content-start mb-3">
+    <button class="btn-add" (click)="createUser()">
+      <i class="bi bi-plus-lg"></i> Nuevo Usuario
     </button>
-</div>
+  </div>
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+    <button class="btn btn-link" (click)="error = ''">Regresar a la tabla</button>
+  </div>
 
   <div *ngIf="loading" class="loading">
     <div class="spinner-border" role="status">
@@ -44,7 +50,8 @@
             <th>Email</th>
             <th>Rol</th>
             <th>Fecha de Creación</th>
-            <th>Acciones</th>
+            <th *ngIf="isAdmin">Acciones</th>
+            <!-- Solo muestra columna si es admin -->
           </tr>
         </thead>
         <tbody>
@@ -62,13 +69,13 @@
                 Sin rol
               </ng-container>
             </td>
-            <td>{{ user.createAt | date:'dd/MM/yyyy' }}</td>
-            <td class="actions">
+            <td>{{ user.createAt | date : "dd/MM/yyyy" }}</td>
+            <td class="actions" *ngIf="isAdmin">
               <button class="btn-edit" (click)="editUser(user.id)">
-            <i class="bi bi-pencil"></i> Editar
+                <i class="bi bi-pencil"></i> Editar
               </button>
-              <button class="btn-delete" (click)="deleteUser(user.id)">
-            <i class="bi bi-trash"></i> Eliminar
+              <button class="btn-delete" (click)="openDeleteModal(user)">
+                <i class="bi bi-trash"></i> Eliminar
               </button>
             </td>
           </tr>
@@ -76,23 +83,48 @@
       </table>
 
       <div class="pagination">
-        <button class="btn-prev" 
-                (click)="goToPage(currentPage - 1)"
-                [disabled]="currentPage === 1">
+        <button
+          class="btn-prev"
+          (click)="goToPage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+        >
           <i class="bi bi-chevron-left"></i>
         </button>
-        
+
         <span class="page-info">
           Página {{ currentPage }} de {{ totalPages }}
-          <span *ngIf="totalPages > 0">({{ filteredUsers.length }} usuarios)</span>
+          <span *ngIf="totalPages > 0"
+            >({{ filteredUsers.length }} usuarios)</span
+          >
         </span>
-        
-        <button class="btn-next" 
-                (click)="goToPage(currentPage + 1)"
-                [disabled]="currentPage === totalPages">
+
+        <button
+          class="btn-next"
+          (click)="goToPage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+        >
           <i class="bi bi-chevron-right"></i>
         </button>
       </div>
     </div>
   </div>
 </div>
+<app-delete-user-confirm-modal
+  *ngIf="showDeleteModal"
+  [user]="selectedUser"
+  (confirmed)="onDeleteConfirmed($event)"
+  (canceled)="showDeleteModal = false"
+>
+</app-delete-user-confirm-modal>
+<app-create-user-modal
+  *ngIf="showCreateModal"
+  (created)="onUserCreated($event)"
+  (canceled)="showCreateModal = false"
+></app-create-user-modal>
+
+<app-edit-user-modal 
+  *ngIf="showEditModal"
+  [userId]="selectedUserId"
+  (saved)="onUserUpdated($event)"
+  (canceled)="showEditModal = false"
+></app-edit-user-modal>

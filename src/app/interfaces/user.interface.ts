@@ -2,6 +2,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  password?: string; // Solo para creación
   roles: {
     name: string;
     permissions: {
@@ -11,6 +12,7 @@ export interface User {
       manage_roles: boolean;
     };
   }[];
+  status: 'active' | 'deactivated';
   createAt: Date;
   updatedAt: Date;
 }
