@@ -40,7 +40,7 @@ export class EditUserModalComponent implements OnInit {
     this.userService.getUserProfile(this.userId!).subscribe({
       next: (user) => {
         this.user = { ...user };
-        this.selectedRoles = user.roles.map((r: Role) => r.roleId);
+        this.selectedRoles = user.roles.map((r: Role) => r.id);
         this.loading = false;
       },
       error: (err) => {
@@ -53,7 +53,11 @@ export class EditUserModalComponent implements OnInit {
   loadAllRoles(): void {
     this.userService.getAllRoles().subscribe({
       next: (roles) => {
-        this.allRoles = roles;
+        this.allRoles = roles.map(role => ({
+          id: role.id,
+          name: role.name
+        }));
+        //console.log('Roles cargados:', this.allRoles.map(role => role.name));
       },
       error: (err) => {
         console.error('Error cargando roles', err);
@@ -76,13 +80,27 @@ export class EditUserModalComponent implements OnInit {
   closeModal() {
     this.canceled.emit();
   }
-
+  
   onSubmit() {
+    // Encuentra el objeto Role seleccionado por nombre
+    const selectedRole = this.allRoles.find(role => role.name === this.user.idRol);
+
     const updatedUser = {
-      ...this.user,
-      roles: this.selectedRoles
+      name: this.user.name,
+      email: this.user.email,
+      status: this.user.status,
+      roles: this.selectedRoles.map(roleId => ({ id: roleId }))
     };
-    this.saved.emit(updatedUser);
+    console.log('Datos del usuario a actualizar:', updatedUser);
+    console.log('ID del usuario a actualizar:', this.userId);
+    this.userService.updateUser(this.userId!, updatedUser).subscribe({
+      next: (response) => {
+        this.saved.emit(response);
+      },
+      error: (err) => {
+        console.error('Error actualizando usuario', err);
+      }
+    });
   }
 
   isFormValid(): boolean {

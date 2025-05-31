@@ -15,9 +15,13 @@
           aria-label="Close"
           (click)="closeModal()"
         >
-            <span aria-hidden="true" class="text-secondary" style="font-size: 1.3rem;">
-              <i class="fas fa-times"></i>
-            </span>
+          <span
+            aria-hidden="true"
+            class="text-secondary"
+            style="font-size: 1.3rem"
+          >
+            <i class="fas fa-times"></i>
+          </span>
         </button>
       </div>
       <form (ngSubmit)="onSubmit()" class="user-form">
@@ -61,16 +65,20 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="roles">Roles:</label>
+            <label for="roles" class="text-dark">Roles:</label>
             <select
               id="roles"
-              class="form-control"
-              [(ngModel)]="user.roleId"
+              class="form-control text-dark"
+              [(ngModel)]="user.idRol"
               name="roles"
               required
             >
-              <option *ngFor="let role of allRoles" [value]="role.roleId">
-                {{ role.roleName }}
+              <option
+                *ngFor="let role of allRoles"
+                [value]="role.name"
+                class="text-dark"
+              >
+                {{ role.name }}
               </option>
             </select>
           </div>
