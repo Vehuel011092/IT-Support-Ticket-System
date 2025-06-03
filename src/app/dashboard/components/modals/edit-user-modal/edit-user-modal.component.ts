@@ -17,6 +17,7 @@ export class EditUserModalComponent implements OnInit {
   @Output() canceled = new EventEmitter<void>();
 
   user: any = {
+    idRol: null,
     name: '',
     email: '',
     status: 'active',
@@ -36,12 +37,16 @@ export class EditUserModalComponent implements OnInit {
     this.loadAllRoles();
   }
 
-  loadUserData(): void {
+   loadUserData() {
     this.userService.getUserProfile(this.userId!).subscribe({
-      next: (user) => {
-        this.user = { ...user };
-        this.selectedRoles = user.roles.map((r: Role) => r.id);
+      next: (userData) => {
+        this.user = userData;
         this.loading = false;
+        
+        // Inicializar idRol con el primer rol del usuario (si existe)
+        if (userData.roles && userData.roles.length > 0) {
+          this.user.idRol = userData.roles[0].id;
+        }
       },
       error: (err) => {
         console.error('Error cargando usuario', err);
@@ -57,7 +62,6 @@ export class EditUserModalComponent implements OnInit {
           id: role.id,
           name: role.name
         }));
-        //console.log('Roles cargados:', this.allRoles.map(role => role.name));
       },
       error: (err) => {
         console.error('Error cargando roles', err);
@@ -82,17 +86,13 @@ export class EditUserModalComponent implements OnInit {
   }
   
   onSubmit() {
-    // Encuentra el objeto Role seleccionado por nombre
-    const selectedRole = this.allRoles.find(role => role.name === this.user.idRol);
-
+// Solo un rol seleccionado, toma el primer ID
     const updatedUser = {
       name: this.user.name,
       email: this.user.email,
       status: this.user.status,
-      roles: this.selectedRoles.map(roleId => ({ id: roleId }))
+      role:  [this.user.idRol]
     };
-    console.log('Datos del usuario a actualizar:', updatedUser);
-    console.log('ID del usuario a actualizar:', this.userId);
     this.userService.updateUser(this.userId!, updatedUser).subscribe({
       next: (response) => {
         this.saved.emit(response);

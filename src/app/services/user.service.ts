@@ -84,16 +84,14 @@ getAllRoles(): Observable<Role[]> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getLocalStorageToken()}`
     });
-
     // El backend espera un objeto UserEntity, incluyendo roles como un array/set
     const body = {
       name: userData.name,
       email: userData.email,
       status: userData.status,
-      roles: userData.roles // Debe ser un array de roles o IDs de roles
+      roleIds: userData.role || [] // Debe ser un array de roles o IDs de roles
       // No se incluye password ni campos automáticos
     };
-
     return this.http.put(`${this.apiUrl}/user/update-user/${id}`, body, { headers }).pipe(
       catchError(error => {
         console.error('Error completo al actualizar usuario:', error);

@@ -1,25 +1,11 @@
-<div
-  class="modal fade show d-block"
-  tabindex="-1"
-  role="dialog"
-  style="background: rgba(0, 0, 0, 0.5)"
-  (click)="closeModal()"
->
+<div class="modal fade show d-block" tabindex="-1" role="dialog" style="background: rgba(0, 0, 0, 0.5)"
+  (click)="closeModal()">
   <div class="modal-dialog" role="document" (click)="$event.stopPropagation()">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Editar Usuario</h5>
-        <button
-          type="button"
-          class="close"
-          aria-label="Close"
-          (click)="closeModal()"
-        >
-          <span
-            aria-hidden="true"
-            class="text-secondary"
-            style="font-size: 1.3rem"
-          >
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true" class="text-secondary" style="font-size: 1.3rem">
             <i class="fas fa-times"></i>
           </span>
         </button>
@@ -28,74 +14,42 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="name">Nombre Completo</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              [(ngModel)]="user.name"
-              name="name"
-              required
-              placeholder="Ingrese el nombre completo"
-            />
+            <input type="text" class="form-control" id="name" [(ngModel)]="user.name" name="name" required
+              placeholder="Ingrese el nombre completo" />
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              [(ngModel)]="user.email"
-              name="email"
-              required
-              placeholder="Ingrese el email"
-              readonly
-            />
+            <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email" required
+              placeholder="Ingrese el email" readonly />
           </div>
           <div class="form-group">
             <label for="status">Estado</label>
-            <select
-              id="status"
-              class="form-control"
-              [(ngModel)]="user.status"
-              name="status"
-              required
-            >
+            <select id="status" class="form-control" [(ngModel)]="user.status" name="status" required>
               <option value="active">Activo</option>
               <option value="deactivated">Desactivado</option>
             </select>
           </div>
           <div class="form-group">
             <label for="roles" class="text-dark">Roles:</label>
-            <select
-              id="roles"
-              class="form-control text-dark"
-              [(ngModel)]="user.idRol"
-              name="roles"
-              required
-            >
-              <option
-                *ngFor="let role of allRoles"
-                [value]="role.name"
-                class="text-dark"
-              >
+            <!-- Usa idRol directamente -->
+            <select id="roles" class="form-control text-dark" [(ngModel)]="user.idRol" name="roles" required>
+              <!-- Opción vacía para mostrar como placeholder, no seleccionable después de elegir -->
+              <option [ngValue]="null" disabled selected hidden class="text-dark">
+                Seleccione un rol
+              </option>
+
+              <!-- Iterar sobre roles -->
+              <option *ngFor="let role of allRoles" [value]="role.id" class="text-dark">
                 {{ role.name }}
               </option>
             </select>
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            (click)="closeModal()"
-          >
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">
             Cancelar
           </button>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            [disabled]="!isFormValid()"
-          >
+          <button type="submit" class="btn btn-primary" [disabled]="!isFormValid()">
             Guardar Cambios
           </button>
         </div>

@@ -66,7 +66,6 @@ export class UserListComponent implements OnInit {
         this.users = users;
         this.filteredUsers = [...this.users];
         this.loading = false;
-        console.log(users);
       },
       error: (err) => {
         this.error = 'Error al cargar los usuarios';
@@ -141,8 +140,6 @@ export class UserListComponent implements OnInit {
         // y la vista esté limpia. loadUsers() actualiza this.users y this.filteredUsers.
         this.searchTerm = '';
         this.currentPage = 1;
-
-        console.log('Usuario creado:', newUser);
       },
       error: (err) => {
         console.error('Error creando usuario:', err);
@@ -167,24 +164,7 @@ export class UserListComponent implements OnInit {
 
   onUserUpdated(updatedUser: any): void {
     this.showEditModal = false;
-    this.userService.updateUser(updatedUser.id, updatedUser).subscribe({
-      next: (response) => {
-        // Actualizar el usuario en la lista local
-        const index = this.users.findIndex(u => u.id === updatedUser.id);
-        if (index !== -1) {
-          this.users[index] = response;
-          this.filteredUsers = [...this.users];
-        }
-
-        // Mensaje de éxito
-        this.successMessage = `Usuario ${response.name} actualizado exitosamente!`;
-        setTimeout(() => this.successMessage = '', 3000);
-      },
-      error: (err) => {
-        console.error('Error actualizando usuario:', err);
-        this.error = 'Error al actualizar el usuario';
-      }
-    });
+    this.loadUsers();
   }
 
 }
