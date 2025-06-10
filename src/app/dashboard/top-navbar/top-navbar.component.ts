@@ -55,6 +55,7 @@ export class TopNavbarComponent {
     this.toggleSidebarEvent.emit();
   }
   isDropdownOpen = false;
+  isAlertsDropdownOpen = false;
 
   get user() {
     return {
