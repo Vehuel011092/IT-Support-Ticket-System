@@ -1,1 +1,45 @@
-<p>tickets-list works!</p>
+<div class="ticket-container">
+  <h2>Gestión de Tickets</h2>
+  
+  <!-- Formulario para crear tickets -->
+  <div class="ticket-form">
+    <h3>Crear Nuevo Ticket</h3>
+    <div class="form-group">
+      <label>Título:</label>
+      <input type="text" [(ngModel)]="nuevoTicket.title" placeholder="Título del problema">
+    </div>
+    <div class="form-group">
+      <label>Descripción:</label>
+      <textarea [(ngModel)]="nuevoTicket.content" rows="3" placeholder="Describe el problema..."></textarea>
+    </div>
+    <button (click)="crearTicket()">Crear Ticket</button>
+  </div>
+
+  <!-- Lista de tickets -->
+  <div class="ticket-list">
+    <h3>Tickets Existentes</h3>
+    <div class="ticket-card" *ngFor="let ticket of tickets">
+      <div class="ticket-header">
+        <span class="ticket-number">{{ ticket.ticketNumber }}</span>
+        <span class="ticket-status" [ngClass]="ticket.state.toLowerCase().replace(' ', '-')">
+          {{ ticket.state }}
+        </span>
+      </div>
+      <div class="ticket-body">
+        <h4>{{ ticket.title }}</h4>
+        <p>{{ ticket.content }}</p>
+      </div>
+      <div class="ticket-footer">
+        <div>
+          <strong>Creado por:</strong> {{ ticket.createdBy }}
+        </div>
+        <div *ngIf="ticket.assingTo">
+          <strong>Asignado a:</strong> {{ ticket.assingTo }}
+        </div>
+        <div>
+          <small>{{ ticket.creationDate | date:'medium' }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

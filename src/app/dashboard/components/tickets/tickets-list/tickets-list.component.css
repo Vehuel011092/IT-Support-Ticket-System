@@ -1,0 +1,95 @@
+.ticket-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.ticket-form {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ticket-list {
+  display: grid;
+  gap: 20px;
+}
+
+.ticket-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #eee;
+}
+
+.ticket-number {
+  font-weight: bold;
+  color: #333;
+}
+
+.ticket-status {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+.abierto {
+  background: #ffeb3b;
+}
+.en-progreso {
+  background: #2196f3;
+  color: white;
+}
+.cerrado {
+  background: #4caf50;
+  color: white;
+}
+
+.ticket-body {
+  padding: 15px;
+}
+
+.ticket-footer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-top: 1px solid #eee;
+  font-size: 0.9rem;
+}
