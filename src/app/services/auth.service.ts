@@ -6,7 +6,8 @@ import { map, Observable, tap } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private authChecked = false;
- apiUrl: string = "http://localhost:8080";
+ apiUrl: string = "http://back-end-itsis.railway.internal:8080";
+ 
   constructor(private router: Router, private http: HttpClient) { }
 
   async checkAuth(): Promise<boolean> {
@@ -30,7 +31,7 @@ export class AuthService {
   public validateToken(token: string): Promise<boolean> {
     // Ejemplo: Petición HTTP al backend
     return new Promise((resolve) => {
-      this.http.get<boolean>('http://localhost:8080/auth/me', {
+      this.http.get<boolean>('http://back-end-itsis.railway.internal:8080/auth/me', {
         headers: { Authorization: `Bearer ${token}` }
       }).subscribe({
         next: (res) => {

@@ -8,7 +8,7 @@ import { Role } from '../interfaces/roles.interface';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private apiUrl: string = "http://localhost:8080";
+  private apiUrl: string = "http://back-end-itsis.railway.internal:8080";
   
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
