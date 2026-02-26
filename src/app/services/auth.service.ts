@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
+import {Observable } from 'rxjs';
+import { environment } from '../services/env.prod';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -31,7 +32,7 @@ export class AuthService {
   public validateToken(token: string): Promise<boolean> {
     // Ejemplo: Petición HTTP al backend
     return new Promise((resolve) => {
-      this.http.get<boolean>('http://back-end-itsis.railway.internal:8080/auth/me', {
+      this.http.get<boolean>(`${environment.apiUrl}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       }).subscribe({
         next: (res) => {
@@ -90,7 +91,7 @@ clearToken(): void {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/login`, { email, password });
+    return this.http.post(`${environment.apiUrl}/auth/login`, { email, password });
   }
 
   setLastLogin(): void {
@@ -98,7 +99,7 @@ clearToken(): void {
     if (!token) {
       return;
     }
-    this.http.post(`${this.apiUrl}/auth/last-login`, {}, {
+    this.http.post(`${environment.apiUrl}/auth/last-login`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: () => {
