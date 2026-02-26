@@ -4,17 +4,18 @@ import { Router } from '@angular/router';
 import { map, Observable, tap, catchError, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Role } from '../interfaces/roles.interface';
+import { environment } from './env.prod';
 
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private apiUrl: string = "http://back-end-itsis.railway.internal:8080";
+  //private apiUrl: string = "http://back-end-itsis.railway.internal:8080";
   
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   //get user profile with id
   getUserProfile(id: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/user/${id}`, {
+    return this.http.get<any>(`${environment.apiUrl}/user/${id}`, {
       headers: { Authorization: `Bearer ${this.authService.getLocalStorageToken()}` }
     }).pipe(
       tap(user => {
@@ -28,14 +29,14 @@ export class UserService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get(`${this.apiUrl}/user/current-user`, { headers });
+    return this.http.get(`${environment.apiUrl}/user/current-user`, { headers });
   }
 
   getUsers(): Observable<any[]> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getLocalStorageToken()}`
     });
-    return this.http.get<any[]>(`${this.apiUrl}/user`, { headers });
+    return this.http.get<any[]>(`${environment.apiUrl}/user`, { headers });
   }
 
   // delete user by id
@@ -43,7 +44,7 @@ export class UserService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getLocalStorageToken()}`
     });
-    return this.http.delete<any>(`${this.apiUrl}/user/delete/${id}`, { headers });
+    return this.http.delete<any>(`${environment.apiUrl}/user/delete/${id}`, { headers });
   }
 
  createUser(userData: any): Observable<any> {
@@ -60,7 +61,7 @@ export class UserService {
     role: userData.role
   };
 
-  return this.http.post(`${this.apiUrl}/user/register`, body, { headers }).pipe(
+  return this.http.post(`${environment.apiUrl}/user/register`, body, { headers }).pipe(
     catchError(error => {
       console.error('Error completo:', error);
       return throwError(() => new Error('Error creando usuario'));
@@ -72,7 +73,7 @@ getAllRoles(): Observable<Role[]> {
    const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getLocalStorageToken()}`
     });
-    return this.http.get<Role[]>(`${this.apiUrl}/user/roles` , { headers }).pipe(
+    return this.http.get<Role[]>(`${environment.apiUrl}/user/roles` , { headers }).pipe(
       catchError(error => {
         console.error('Error obteniendo roles:', error);
         return throwError(() => new Error('Error obteniendo roles'));
@@ -92,7 +93,7 @@ getAllRoles(): Observable<Role[]> {
       roleIds: userData.role || [] // Debe ser un array de roles o IDs de roles
       // No se incluye password ni campos automáticos
     };
-    return this.http.put(`${this.apiUrl}/user/update-user/${id}`, body, { headers }).pipe(
+    return this.http.put(`${environment.apiUrl}/user/update-user/${id}`, body, { headers }).pipe(
       catchError(error => {
         console.error('Error completo al actualizar usuario:', error);
         return throwError(() => new Error('Error actualizando usuario'));
